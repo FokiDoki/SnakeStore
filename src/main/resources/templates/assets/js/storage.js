@@ -1,16 +1,21 @@
 $(document).ready(function(e) {
-    $('#generatePasswordButton').click(function() {
-        $('#passwordInputModal').val(generatePassword(16));
-        $('#passwordInputModal').trigger("input");
+    $('.generatePasswordButton').click(function() {
+        let forId= $(this).data("for");
+        $('#'+forId).val(generatePassword(16));
+        $('#'+forId).trigger("input");
     });
-    $('#passwordInputModal').on('input', function () {
+    $('.passwordInputModal').on('input', function () {
 
-        let currentPassword = $('#passwordInputModal').val();
+        let currentPassword = $(this).val();
+        let forId = $(this).data("for");
         let passwordScore = getPasswordScore(currentPassword);
-        $('#PasswordScoreModal').text(passwordScore);
-        $('#passwordStrongTextModal').text(getPasswordStrengthFromScore(passwordScore));
-        $('#passwordStrongTextModal').css("color", getPasswordColorFromScore(passwordScore));
+        $('.PasswordScoreModal', $(forId)).text(passwordScore);
+        $('.passwordStrongTextModal', $(forId)).text(getPasswordStrengthFromScore(passwordScore));
+        $('.passwordStrongTextModal', $(forId)).css("color", getPasswordColorFromScore(passwordScore));
         console.log(currentPassword);
+    });
+    $('.changePasswordButton').click(function() {
+        $('#ChangePasswordModalCurrentUser').val($(this).data("userid"));
     });
 });
 

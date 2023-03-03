@@ -31,6 +31,23 @@
             </div>
         </nav>
     </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="editPasswordModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change password</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="passwordUpdate">
+                    <div class="modal-body">
+                        <div id="ChangePasswordModalPasswordBlock"><label class="form-label">Password<span class="justify-content-md-end align-items-md-start">&nbsp;(Score: <span class="PasswordScoreModal">0</span>)</span></label>
+                            <div class="d-flex"><input class="form-control passwordInputModal" type="text" id="passwordChangeInputModal" name="password" placeholder="Password" required="true" data-for="#ChangePasswordModalPasswordBlock" autocomplete="off"><span class="d-md-flex align-items-md-center">&nbsp;OR&nbsp;</span><button class="btn btn-primary justify-content-md-center align-items-md-center generatePasswordButton" type="button" data-for="passwordChangeInputModal">Generate</button></div><span class="justify-content-md-end align-items-md-start">Password is&nbsp;<strong class="passwordStrongTextModal">empty</strong></span>
+                        </div><input class="form-control" type="hidden" name="_csrf" th:value="${_csrf.token}"><input class="form-control" type="hidden" id="ChangePasswordModalCurrentUser" name="entityId">
+                    </div>
+                    <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit">Save</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" role="dialog" tabindex="-1" id="addEntityModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -39,9 +56,9 @@
                 </div>
                 <form method="POST">
                     <div class="modal-body">
-                        <div class="mb-2"><label class="form-label">Site</label><input class="form-control" type="text" name="site" placeholder="Enter site URL" required="" minlength="2"></div>
-                        <div><label class="form-label">Password<span class="justify-content-md-end align-items-md-start">&nbsp;(Score: <span id="PasswordScoreModal">0</span>)</span></label>
-                            <div class="d-flex"><input class="form-control" type="text" id="passwordInputModal" name="password" placeholder="Password" required="" minlength="2"><span class="d-md-flex align-items-md-center">&nbsp;OR&nbsp;</span><button class="btn btn-primary justify-content-md-center align-items-md-center" id="generatePasswordButton" type="button">Generate</button></div><span class="justify-content-md-end align-items-md-start">Password is&nbsp;<strong id="passwordStrongTextModal">empty</strong></span>
+                        <div class="mb-2"><label class="form-label">Site</label><input class="form-control" type="text" name="login" placeholder="Enter site URL" required="true" minlength="2"></div>
+                        <div id="AddNewEntityModalPasswordBlock"><label class="form-label">Password<span class="justify-content-md-end align-items-md-start">&nbsp;(Score: <span id="PasswordScoreModal">0</span>)</span></label>
+                            <div class="d-flex"><input class="form-control passwordInputModal" type="text" id="passwordInputModal" name="password" placeholder="Password" required="true" data-for="#AddNewEntityModalPasswordBlock" autocomplete="off"><span class="d-md-flex align-items-md-center">&nbsp;OR&nbsp;</span><button class="btn btn-primary justify-content-md-center align-items-md-center generatePasswordButton" type="button" data-for="passwordInputModal">Generate</button></div><span class="justify-content-md-end align-items-md-start">Password is&nbsp;<strong id="passwordStrongTextModal">empty</strong></span>
                         </div>
                     </div>
                     <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit">Save</button></div><input class="form-control" type="hidden" name="_csrf" th:value="${_csrf.token}">
@@ -67,14 +84,17 @@
                             </thead>
                             <tbody>
                                 <tr class="warning no-result">
-                                    <td colspan="12"><i class="fa fa-warning"></i>&nbsp; No Result !!!</td>
+                                    <td method="post"><i class="fa fa-warning"></i>&nbsp; Not found</td>
                                 </tr>
-                                <tr>
-                                    <td>01</td>
-                                    <td>www.somesrl.com</td>
-                                    <td>123456789qwert</td>
-                                    <td>20 mins ago</td>
-                                    <td><button class="btn btn-danger" style="margin-left: 5px;" type="submit"><i class="fa fa-trash" style="font-size: 15px;"></i></button></td>
+                                <tr th:each="keypair,iter : ${keypairs}">
+                                    <td th:text="${iter.index+1}">01</td>
+                                    <td th:text="${keypair.login}">www.somesrl.com</td>
+                                    <td th:text="${keypair.password}">123456789qwert</td>
+                                    <td th:text="${keypair.getWhenLastChangedAgoReadable()}">20 mins ago</td>
+                                    <td>
+                                        <form class="d-inline-block align-items-lg-center"><button class="btn btn-primary changePasswordButton" style="margin-left: 5px;" type="button" data-bs-toggle="modal" data-bs-target="#editPasswordModal" th:data-userid="${keypair.id}"><i class="far fa-edit" style="font-size: 15px;"></i></button><input class="form-control" type="hidden" name="entityId" th:value="${keypair.id}"><input class="form-control" type="hidden" name="_csrf" th:value="${_csrf.token}"></form>
+                                        <form class="d-inline-block" method="POST" action="delete"><button class="btn btn-danger" style="margin-left: 5px;" type="submit"><i class="fa fa-trash" style="font-size: 15px;"></i></button><input class="form-control" type="hidden" name="entityId" th:value="${keypair.id}"><input class="form-control" type="hidden" name="_csrf" th:value="${_csrf.token}"></form>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
