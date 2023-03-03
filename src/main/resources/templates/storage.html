@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>PasswordStorage</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/Dark-NavBar-Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Dark-NavBar-Navigation-with-Search.css">
+    <link rel="stylesheet" href="assets/css/Dark-NavBar.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
+    <link rel="stylesheet" href="assets/css/Table-With-Search-search-table.css">
+    <link rel="stylesheet" href="assets/css/Table-With-Search.css">
+</head>
+
+<body>
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" style="height: 80px;background-color: #37434d;color: #ffffff;">
+            <div class="container-fluid"><a class="navbar-brand" href="#"><i class="fa fa-key"></i>&nbsp;Snake Storage</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <form method="post" action="/logout"><button class="btn btn-light" type="button">Log out</button><input class="form-control" type="hidden" name="_csrf" th:value="${_csrf.token}"></form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="addEntityModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new entity</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="mb-2"><label class="form-label">Site</label><input class="form-control" type="text" name="site" placeholder="Enter site URL" required="" minlength="2"></div>
+                        <div><label class="form-label">Password<span class="justify-content-md-end align-items-md-start">&nbsp;(Score: <span id="PasswordScoreModal">0</span>)</span></label>
+                            <div class="d-flex"><input class="form-control" type="text" id="passwordInputModal" name="password" placeholder="Password" required="" minlength="2"><span class="d-md-flex align-items-md-center">&nbsp;OR&nbsp;</span><button class="btn btn-primary justify-content-md-center align-items-md-center" id="generatePasswordButton" type="button">Generate</button></div><span class="justify-content-md-end align-items-md-start">Password is&nbsp;<strong id="passwordStrongTextModal">empty</strong></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit">Save</button></div><input class="form-control" type="hidden" name="_csrf" th:value="${_csrf.token}">
+                </form>
+            </div>
+        </div>
+    </div>
+    <section class="py-4 py-xl-5">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8 search-table-col">
+                    <div class="form-group pull-right col-lg-4"><input type="text" class="search form-control" placeholder="Search by typing here.."></div><span class="counter pull-right"></span><button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addEntityModal">Add</button>
+                    <div class="table-responsive table table-hover table-bordered results">
+                        <table class="table table-hover table-bordered">
+                            <thead class="bill-header cs">
+                                <tr>
+                                    <th id="trs-hd-1" class="col-lg-1">SL. No.</th>
+                                    <th id="trs-hd-2" class="col-lg-2">Site</th>
+                                    <th id="trs-hd-3" class="col-lg-3">Password</th>
+                                    <th id="trs-hd-4" class="col-lg-2">Changed</th>
+                                    <th id="trs-hd-6" class="col-lg-2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="warning no-result">
+                                    <td colspan="12"><i class="fa fa-warning"></i>&nbsp; No Result !!!</td>
+                                </tr>
+                                <tr>
+                                    <td>01</td>
+                                    <td>www.somesrl.com</td>
+                                    <td>123456789qwert</td>
+                                    <td>20 mins ago</td>
+                                    <td><button class="btn btn-danger" style="margin-left: 5px;" type="submit"><i class="fa fa-trash" style="font-size: 15px;"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/Table-With-Search-search-table.js"></script>
+</body>
+
+</html>
