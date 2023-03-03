@@ -2,6 +2,7 @@ package com.snakestore.artifacts;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,8 +16,14 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     private String id;
-    @Size(min= 1, message="Username must be at least 1 character long")
+
     private String username;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     private String password;
 
     @Override
