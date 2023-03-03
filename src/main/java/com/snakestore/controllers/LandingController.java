@@ -27,9 +27,9 @@ public class LandingController {
         return "storage";
     }
     @ModelAttribute(name="keypairs")
-    public List<LoginPassEntity> addUsersToModel() {
+    public List<LoginPassEntity> addUsersToModel(Principal principal) {
         List<LoginPassEntity> loginPassEntities = new ArrayList<LoginPassEntity>();
-        loginPassRepository.findAll().forEach(loginPassEntities::add);
+        loginPassRepository.findAllByUserName(principal.getName()).forEach(loginPassEntities::add);
         return loginPassEntities;
     }
 
